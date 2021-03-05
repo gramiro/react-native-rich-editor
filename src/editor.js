@@ -259,7 +259,10 @@ function createHTML(options = {}) {
                 state: function() { return queryCommandState('insertUnorderedList');},
                 result: function() { if (!!checkboxNode(window.getSelection().anchorNode)) return; return exec('insertUnorderedList');}
             },
-            code: { result: function() { return exec(formatBlock, '<pre>'); }},
+            code: {
+                state: function() { return queryCommandValue(formatBlock) === 'pre'; },
+                result: function() { return queryCommandValue(formatBlock) === 'pre' ? exec(formatBlock, '<div>') : exec(formatBlock, '<pre>'); }
+            },
             line: { result: function() { return exec('insertHorizontalRule'); }},
             redo: { result: function() { return exec('redo'); }},
             undo: { result: function() { return exec('undo'); }},
